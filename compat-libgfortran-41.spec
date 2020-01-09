@@ -3,7 +3,7 @@
 Summary: Compatibility Fortran 95 runtime library version 4.1.2
 Name: compat-libgfortran-41
 Version: 4.1.2
-Release: 42%{?dist}
+Release: 44%{?dist}
 # libgfortran has an exception which allows
 # linking it into any kind of programs or shared libraries without
 # restrictions.
@@ -48,6 +48,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libgfortran.so.1*
 
 %changelog
+* Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 4.1.2-44
+- Mass rebuild 2014-01-24
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 4.1.2-43
+- Mass rebuild 2013-12-27
+
 * Wed Aug 28 2013 Jakub Jelinek <jakub@redhat.com 4.1.2-42
 - add %%{?dist} to Release (#874994)
 
