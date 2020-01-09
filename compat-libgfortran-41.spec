@@ -3,7 +3,7 @@
 Summary: Compatibility Fortran 95 runtime library version 4.1.2
 Name: compat-libgfortran-41
 Version: 4.1.2
-Release: 44%{?dist}
+Release: 45%{?dist}
 # libgfortran has an exception which allows
 # linking it into any kind of programs or shared libraries without
 # restrictions.
@@ -12,6 +12,7 @@ Group: System Environment/Libraries
 Source0: libgfortran-%{version}-%{DATE}.tar.bz2
 URL: http://gcc.gnu.org
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+ExcludeArch: aarch64 ppc64le
 BuildRequires: gcc-gfortran >= 4.1.2, gettext, bison, flex, texinfo
 Patch1: libgfortran41-gthr.patch
 
@@ -24,6 +25,9 @@ with GCC 4.1.x-RH compiled Fortran applications.
 %patch1 -p0 -b .gthr~
 
 %build
+%ifarch %{ix86} x86_64
+sed -i -e 's/4 8 10 16/4 8 10/g' libgfortran/mk-kinds-h.sh libgfortran/mk-srk-inc.sh
+%endif
 mkdir obj
 cd obj
 CFLAGS="$RPM_OPT_FLAGS" FCFLAGS="$RPM_OPT_FLAGS" ../libgfortran/configure --prefix=%{_prefix} --disable-multilib
@@ -48,6 +52,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libgfortran.so.1*
 
 %changelog
+* Thu Feb 14 2019 Jakub Jelinek <jakub@redhat.com 4.1.2-45
+- remove real kind 16 support on i?86/x86_64 (#1628391)
+
 * Fri Jan 24 2014 Daniel Mach <dmach@redhat.com> - 4.1.2-44
 - Mass rebuild 2014-01-24
 
